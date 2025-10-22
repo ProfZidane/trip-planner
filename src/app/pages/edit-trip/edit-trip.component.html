@@ -1,0 +1,154 @@
+<div class="travel-container">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="page-title mb-1">{{trip.destination}}</h2>
+      <p class="page-subtitle mb-0">Organisez votre séjour dans les moindres détails</p>
+    </div>
+    <div class="d-flex gap-2">
+      <button class="btn btn-outline-primary" routerLink="/">Accueil</button>
+      <button class="btn btn-success" (click)="goToView()">Aperçu</button>
+    </div>
+  </div>
+
+  <!-- Transport -->
+  <div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h5 class="mb-0">Transport</h5>
+<button class="btn btn-outline-primary btn-sm" (click)="addTransport()">+ Ajouter un trajet</button>
+    </div>
+    <div class="card-body">
+      <div *ngFor="let transport of trip.transport; trackBy: trackByTransportId" class="content-section mb-3">
+        <div class="row g-3">
+          <div class="col-md-2">
+            <label class="form-label">Personne</label>
+            <input type="text" class="form-control" [(ngModel)]="transport.personne" (change)="saveTrip()">
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Trajet</label>
+            <input type="text" class="form-control" [(ngModel)]="transport.trajet" (change)="saveTrip()">
+          </div>
+          <div class="col-md-2">
+            <label class="form-label">Coût (€)</label>
+            <input type="number" class="form-control" [(ngModel)]="transport.cout" (change)="saveTrip()">
+          </div>
+          <div class="col-md-2">
+            <label class="form-label">Horaires</label>
+            <input type="text" class="form-control" [(ngModel)]="transport.horaires" (change)="saveTrip()">
+          </div>
+          <div class="col-md-2">
+            <label class="form-label">Type</label>
+            <select class="form-select" [(ngModel)]="transport.type" (change)="saveTrip()">
+              <option value="TER">TER</option>
+              <option value="Métro">Métro</option>
+              <option value="Bus">Bus</option>
+              <option value="Voiture">Voiture</option>
+            </select>
+          </div>
+          <div class="col-md-1 d-flex align-items-end">
+            <button class="btn btn-outline-danger" (click)="removeTransport(transport.id)">
+              <i class="material-icons">delete</i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="trip.transport.length === 0" class="text-center py-4 text-muted">
+        <p>Aucun transport ajouté</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hébergement -->
+  <div class="card mb-4">
+    <div class="card-header">
+      <h5 class="mb-0">Hébergement</h5>
+    </div>
+    <div class="card-body">
+      <div class="content-section">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Nom de l'établissement</label>
+            <input type="text" class="form-control" [(ngModel)]="trip.hebergement.nom" (change)="saveTrip()">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Type d'hébergement</label>
+            <input type="text" class="form-control" [(ngModel)]="trip.hebergement.type" placeholder="Hôtel, Airbnb, Camping..." (change)="saveTrip()">
+          </div>
+          <div class="col-md-8">
+            <label class="form-label">Adresse</label>
+            <input type="text" class="form-control" [(ngModel)]="trip.hebergement.adresse" (change)="saveTrip()">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Prix total (€)</label>
+            <input type="number" class="form-control" [(ngModel)]="trip.hebergement.prixTotal" (change)="saveTrip()">
+          </div>
+          <div class="col-12">
+            <label class="form-label">Notes</label>
+            <textarea class="form-control" rows="3" [(ngModel)]="trip.hebergement.note" placeholder="Informations complémentaires..." (change)="saveTrip()"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Activités -->
+  <div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h5 class="mb-0">Activités & Visites</h5>
+<button class="btn btn-outline-primary btn-sm" (click)="addActivite()">+ Ajouter une activité</button>
+    </div>
+    <div class="card-body">
+      <div *ngFor="let activite of trip.activites; trackBy: trackByActiviteId" class="content-section mb-3">
+        <div class="row g-3">
+          <div class="col-md-4">
+            <label class="form-label">Nom de l'activité</label>
+            <input type="text" class="form-control" [(ngModel)]="activite.nom" (change)="saveTrip()">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Description</label>
+            <input type="text" class="form-control" [(ngModel)]="activite.description" (change)="saveTrip()">
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Lien utile</label>
+            <input type="url" class="form-control" [(ngModel)]="activite.lien" placeholder="https://..." (change)="saveTrip()">
+          </div>
+          <div class="col-md-1 d-flex align-items-end">
+            <button class="btn btn-outline-danger" (click)="removeActivite(activite.id)">
+              <i class="material-icons">delete</i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="trip.activites.length === 0" class="text-center py-4 text-muted">
+        <p>Aucune activité planifiée</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Checklist -->
+  <div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h5 class="mb-0">À ne pas oublier</h5>
+<button class="btn btn-outline-primary btn-sm" (click)="addChecklistItem()">+ Ajouter un point</button>
+    </div>
+    <div class="card-body">
+      <div *ngFor="let item of trip.checklist; trackBy: trackByChecklistId" class="content-section mb-2">
+        <div class="row g-3 align-items-center">
+          <div class="col-md-1">
+<input type="checkbox" class="form-check-input" [(ngModel)]="item.checked" (change)="onChecklistChange()">
+          </div>
+          <div class="col-md-10">
+            <input type="text" class="form-control" [(ngModel)]="item.text" placeholder="Point à vérifier..." (change)="saveTrip()">
+          </div>
+          <div class="col-md-1">
+            <button class="btn btn-outline-danger btn-sm" (click)="removeChecklistItem(item.id)">
+              <i class="material-icons">delete</i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="trip.checklist.length === 0" class="text-center py-4 text-muted">
+        <p>Aucun point de vérification</p>
+      </div>
+    </div>
+  </div>
+</div>

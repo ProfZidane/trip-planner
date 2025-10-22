@@ -1,0 +1,166 @@
+<div class="travel-container">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="page-title mb-1">Plan de voyage</h2>
+      <p class="page-subtitle mb-0">{{trip?.destination}} • {{trip?.dates?.from}} au {{trip?.dates?.to}}</p>
+    </div>
+    <div class="d-flex gap-2">
+      <button class="btn btn-outline-primary" routerLink="/">Accueil</button>
+      <button class="btn btn-outline-secondary" (click)="goToEdit()">Modifier</button>
+      <button class="btn btn-success" (click)="exportToPDF()">Export PDF</button>
+
+      <div class="btn-group">
+        <button class="btn btn-outline-warning btn-sm" (click)="updateStatus('validated')">Valider</button>
+        <button class="btn btn-outline-success btn-sm" (click)="updateStatus('completed')">Terminer</button>
+        <button class="btn btn-outline-secondary btn-sm" (click)="updateStatus('cancelled')">Annuler</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="trip-content">
+    <!-- En-tête du voyage -->
+    <div class="content-section text-center mb-4">
+      <h1 class="display-4 mb-3">{{trip?.destination}}</h1>
+      <div class="row justify-content-center">
+        <div class="col-md-10">
+          <div class="d-flex justify-content-around text-muted">
+            <div>
+              <strong>Dates</strong><br>
+              {{trip?.dates?.from}} - {{trip?.dates?.to}}
+            </div>
+            <div>
+              <strong>Participants</strong><br>
+              {{trip?.participants?.join(', ')}}
+            </div>
+            <div>
+              <strong>Objectif</strong><br>
+              {{trip?.objective}}
+            </div>
+            <div>
+              <strong>Statut</strong><br>
+              <span class="badge" [class]="getStatusClass(trip?.status || 'planned')">{{getStatusLabel(trip?.status || 'planned')}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Transport -->
+    <div class="content-section mb-4" *ngIf="trip?.transport && trip?.transport.length > 0">
+      <h3 class="mb-4">Transport</h3>
+      <div class="row">
+        <div class="col-12">
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead class="table-light">
+                <tr>
+                  <th>Personne</th>
+                  <th>Trajet</th>
+                  <th>Type</th>
+                  <th>Horaires</th>
+                  <th class="text-end">Coût</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let transport of trip?.transport">
+                  <td><strong>{{transport.personne}}</strong></td>
+                  <td>{{transport.trajet}}</td>
+                  <td><span class="badge bg-light text-dark">{{transport.type}}</span></td>
+                  <td>{{transport.horaires}}</td>
+                  <td class="text-end"><strong>{{transport.cout}}€</strong></td>
+                </tr>
+              </tbody>
+              <tfoot class="table-light">
+                <tr>
+                  <td colspan="4"><strong>Total Transport</strong></td>
+                  <td class="text-end"><strong>{{getTotalTransportCost()}}€</strong></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hébergement -->
+    <div class="content-section mb-4" *ngIf="trip?.hebergement?.nom">
+      <h3 class="mb-4">Hébergement</h3>
+      <div class="row">
+        <div class="col-md-8">
+          <h5>{{trip?.hebergement?.nom}}</h5>
+          <p class="text-muted mb-2">{{trip?.hebergement?.adresse}}</p>
+          <p class="mb-2">
+            <span class="badge bg-primary">{{trip?.hebergement?.type}}</span>
+          </p>
+          <p *ngIf="trip?.hebergement?.note" class="text-muted">
+            <em>{{trip?.hebergement?.note}}</em>
+          </p>
+        </div>
+        <div class="col-md-4 text-end">
+          <div class="h4 text-success">{{trip?.hebergement?.prixTotal}}€</div>
+          <small class="text-muted">Prix total</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Activités -->
+    <div class="content-section mb-4" *ngIf="trip?.activites && trip?.activites.length > 0">
+      <h3 class="mb-4">Activités & Visites</h3>
+      <div class="row">
+        <div class="col-md-6" *ngFor="let activite of trip?.activites">
+          <div class="card border-0 shadow-sm mb-3">
+            <div class="card-body">
+              <h6 class="card-title">{{activite.nom}}</h6>
+              <p class="card-text text-muted">{{activite.description}}</p>
+              <a *ngIf="activite.lien" [href]="activite.lien" target="_blank" class="btn btn-outline-primary btn-sm">
+                Plus d'infos
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Checklist -->
+    <div class="content-section mb-4" *ngIf="trip?.checklist && trip?.checklist.length > 0">
+      <h3 class="mb-4">Points de vérification</h3>
+      <div class="row">
+        <div class="col-md-6" *ngFor="let item of trip?.checklist">
+          <div class="d-flex align-items-center mb-2 p-2 rounded" [class.bg-light]="item.checked">
+            <input type="checkbox" [checked]="item.checked" disabled class="form-check-input me-3">
+            <span [class.text-decoration-line-through]="item.checked" [class.text-muted]="item.checked">
+              {{item.text}}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Résumé des coûts -->
+    <div class="cost-summary">
+      <h4 class="mb-3">Résumé financier</h4>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="d-flex justify-content-between mb-2">
+            <span>Transport :</span>
+            <strong>{{getTotalTransportCost()}}€</strong>
+          </div>
+          <div class="d-flex justify-content-between mb-2">
+            <span>Hébergement :</span>
+            <strong>{{trip?.hebergement?.prixTotal || 0}}€</strong>
+          </div>
+          <hr>
+          <div class="d-flex justify-content-between">
+            <span class="h5">Total :</span>
+            <span class="h5 text-success">{{getTotalTransportCost() + (trip?.hebergement?.prixTotal || 0)}}€</span>
+          </div>
+        </div>
+        <div class="col-md-6 text-center">
+          <div class="text-muted">
+            <small>Budget estimé pour {{trip?.participants?.length}} personne(s)</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

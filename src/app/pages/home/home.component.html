@@ -1,0 +1,70 @@
+<div class="hero-section">
+  <div class="container">
+    <h1 class="hero-title">Planifiez vos escapades</h1>
+    <p class="hero-subtitle">en toute simplicité</p>
+    <a routerLink="/create" class="btn hero-btn">Créer mon séjour</a>
+  </div>
+</div>
+
+<div class="travel-container">
+  <div class="page-header">
+    <h2 class="page-title">Mes voyages</h2>
+    <p class="page-subtitle">Retrouvez tous vos projets de voyage</p>
+  </div>
+  
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="card trip-card" *ngIf="hasExistingTrip()" (click)="editTrip()">
+        <div class="card-body p-4">
+          <div class="d-flex justify-content-between align-items-start">
+            <div>
+              <h4 class="card-title mb-2">{{getCurrentTrip()?.destination}}</h4>
+              <p class="text-muted mb-2">
+                {{getCurrentTrip()?.dates?.from}} - {{getCurrentTrip()?.dates?.to}}
+              </p>
+              <p class="text-muted mb-0">
+                {{getCurrentTrip()?.participants?.length}} participant(s)
+              </p>
+            </div>
+            <span class="badge rounded-pill px-3 py-2" [class]="getStatusClass(getCurrentTrip()?.status || 'planned')">{{getStatusLabel(getCurrentTrip()?.status || 'planned')}}</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="content-section text-center" *ngIf="!hasExistingTrip()">
+        <div class="py-5">
+          <h4 class="text-muted mb-3">Aucun voyage planifié</h4>
+          <p class="text-muted mb-4">Commencez dès maintenant à organiser votre prochaine aventure</p>
+          <a routerLink="/create" class="btn btn-primary btn-lg">Créer mon premier voyage</a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-lg-4">
+      <div class="card">
+        <div class="card-body p-4">
+          <div class="d-flex align-items-center mb-3">
+            <div>
+              <h6 class="mb-1">Exemple : Chartres</h6>
+              <small class="text-muted">Week-end découverte</small>
+            </div>
+          </div>
+          <p class="text-muted small mb-3">Découvrez un exemple complet de planification avec transport, hébergement et activités</p>
+          <button class="btn btn-outline-primary w-100" (click)="loadExample()">
+            Découvrir l'exemple
+          </button>
+        </div>
+      </div>
+      
+      <div class="content-section mt-4">
+        <h6 class="mb-3">Fonctionnalités</h6>
+        <div class="small text-muted">
+          <div class="mb-2">Planification détaillée</div>
+          <div class="mb-2">Calcul des coûts</div>
+          <div class="mb-2">Liste de vérification</div>
+          <div class="mb-2">Export PDF</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

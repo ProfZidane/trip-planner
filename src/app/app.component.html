@@ -1,0 +1,21 @@
+<nav class="navbar navbar-expand-lg fixed-top">
+  <div class="container">
+    <a class="navbar-brand" routerLink="/">TripPlanner</a>
+    <div class="navbar-nav ms-auto">
+      <a class="nav-link" routerLink="/">Accueil</a>
+      <a class="nav-link" routerLink="/create">Créer un voyage</a>
+    </div>
+  </div>
+</nav>
+
+<main class="main-content pt-5">
+  <router-outlet></router-outlet>
+</main>
+
+<footer class="footer bg-light mt-5">
+  <div class="container py-4">
+    <div class="text-center text-muted">
+      <p>&copy; 2024 TripPlanner - Planifiez vos voyages en toute simplicité</p>
+    </div>
+  </div>
+</footer>
