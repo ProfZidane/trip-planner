@@ -1,9 +1,11 @@
 export interface Trip {
+  id?: string;
   dates: {
     from: string;
     to: string;
   };
   destination: string;
+  image?: string;
   participants: string[];
   objective: string;
   transport: Transport[];

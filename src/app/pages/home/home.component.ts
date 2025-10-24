@@ -25,17 +25,23 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  ngOnInit() {
+    this.tripService.checkAndUpdateExpiredTrips();
+  }
+  
   hasExistingTrip(): boolean {
-    return this.tripService.getCurrentTrip() !== null;
+    return this.tripService.getTrips().length > 0;
   }
 
   getCurrentTrip() {
     return this.tripService.getCurrentTrip();
   }
 
-  ngOnInit() {
-    this.tripService.checkAndUpdateExpiredTrips();
+  getRecentTrips() {
+    return this.tripService.getTrips().slice(0, 3);
   }
+
+  
 
   getStatusLabel(status: string): string {
     switch(status) {

@@ -1,21 +1,34 @@
-<nav class="navbar navbar-expand-lg fixed-top">
-  <div class="container">
-    <a class="navbar-brand" routerLink="/">TripPlanner</a>
-    <div class="navbar-nav ms-auto">
-      <a class="nav-link" routerLink="/">Accueil</a>
-      <a class="nav-link" routerLink="/create">Créer un voyage</a>
-    </div>
+<!-- Header -->
+<header class="header">
+  <a href="/" class="logo">SIFA PLAN</a>
+  
+  <div class="search-bar-header">
+    <i class="material-icons search-icon">search</i>
+    <input type="text" class="search-input-header" placeholder="Recherchez votre destination">
   </div>
-</nav>
+  
+  <div class="header-buttons">
+    <a href="#" class="sign-in">Se connecter</a>
+    <a routerLink="/create" class="create-tour-btn">Créer un voyage</a>
+  </div>
+</header>
 
-<main class="main-content pt-5">
+<!-- Main Content -->
+<main class="main-content">
   <router-outlet></router-outlet>
 </main>
 
-<footer class="footer bg-light mt-5">
-  <div class="container py-4">
-    <div class="text-center text-muted">
-      <p>&copy; 2024 TripPlanner - Planifiez vos voyages en toute simplicité</p>
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h5>Rover Plan</h5>
+        <p>Planifiez vos voyages en toute simplicité</p>
+      </div>
+      <div class="col-md-6 text-end">
+        <p>&copy; 2024 Rover Plan. Tous droits réservés.</p>
+      </div>
     </div>
   </div>
 </footer>
