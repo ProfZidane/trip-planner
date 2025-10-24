@@ -20,8 +20,8 @@ export class CreateTripComponent {
       dateFrom: ['', Validators.required],
       dateTo: ['', Validators.required],
       destination: ['', Validators.required],
-      participants: [''],
-      objective: ['loisir']
+      participants: ['', Validators.required],
+      objective: ['loisir', Validators.required]
     });
   }
 

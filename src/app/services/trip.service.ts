@@ -6,41 +6,58 @@ import { Trip } from '../models/trip.model';
   providedIn: 'root'
 })
 export class TripService {
-  private tripSubject = new BehaviorSubject<Trip | null>(null);
-  public trip$ = this.tripSubject.asObservable();
+  private tripsSubject = new BehaviorSubject<Trip[]>([]);
+  public trips$ = this.tripsSubject.asObservable();
 
   constructor() {
-    this.loadTrip();
+    this.loadTrips();
+    this.loadExampleTrip();
   }
 
   saveTrip(trip: Trip): void {
-    localStorage.setItem('tripData', JSON.stringify(trip));
-    this.tripSubject.next(trip);
+    const trips = this.getTrips();
+    const existingIndex = trips.findIndex(t => t.destination === trip.destination);
+    
+    if (existingIndex >= 0) {
+      trips[existingIndex] = trip;
+    } else {
+      trip.id = Date.now().toString();
+      trips.push(trip);
+    }
+    
+    localStorage.setItem('tripsData', JSON.stringify(trips));
+    this.tripsSubject.next(trips);
   }
 
-  loadTrip(): Trip | null {
-    const data = localStorage.getItem('tripData');
+  loadTrips(): Trip[] {
+    const data = localStorage.getItem('tripsData');
     if (data) {
-      const trip = JSON.parse(data);
-      this.tripSubject.next(trip);
-      return trip;
+      const trips = JSON.parse(data);
+      this.tripsSubject.next(trips);
+      return trips;
     }
-    return null;
+    return [];
+  }
+
+  getTrips(): Trip[] {
+    return this.tripsSubject.value;
   }
 
   getCurrentTrip(): Trip | null {
-    return this.tripSubject.value;
+    const trips = this.getTrips();
+    return trips.length > 0 ? trips[trips.length - 1] : null;
   }
 
-  clearTrip(): void {
-    localStorage.removeItem('tripData');
-    this.tripSubject.next(null);
+  clearTrips(): void {
+    localStorage.removeItem('tripsData');
+    this.tripsSubject.next([]);
   }
 
   getDefaultTrip(): Trip {
     return {
       dates: { from: '', to: '' },
       destination: '',
+
       participants: [],
       objective: '',
       transport: [],
@@ -83,7 +100,8 @@ export class TripService {
         { id: '2', text: 'Confirmer la réservation d\'hôtel', checked: false },
         { id: '3', text: 'Vérifier les horaires d\'ouverture des musées', checked: false }
       ],
-      status: 'planned'
+      status: 'planned',
+      image: 'https://images.unsplash.com/photo-1549144511-f099e773c147'
     };
     this.saveTrip(exampleTrip);
   }
@@ -108,14 +126,19 @@ export class TripService {
   }
 
   checkAndUpdateExpiredTrips(): void {
-    const trip = this.getCurrentTrip();
-    if (trip && trip.status === 'planned') {
-      const today = new Date();
-      const endDate = new Date(trip.dates.to);
-      if (endDate < today) {
-        trip.status = 'cancelled';
-        this.saveTrip(trip);
+    const trips = this.getTrips();
+    const today = new Date();
+    
+    trips.forEach(trip => {
+      if (trip.status === 'planned') {
+        const endDate = new Date(trip.dates.to);
+        if (endDate < today) {
+          trip.status = 'cancelled';
+        }
       }
-    }
+    });
+    
+    localStorage.setItem('tripsData', JSON.stringify(trips));
+    this.tripsSubject.next(trips);
   }
 }

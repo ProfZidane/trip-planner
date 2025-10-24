@@ -1,0 +1,135 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  max-width: 700px;
+  width: 90%;
+  max-height: 90vh;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+}
+
+.close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-image {
+  height: 300px;
+  overflow: hidden;
+}
+
+.hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.modal-body {
+  padding: 32px;
+}
+
+.destination-title {
+  font-size: 32px;
+  font-weight: bold;
+  color: #1A1A1A;
+  margin: 0 0 8px 0;
+}
+
+.destination-country {
+  font-size: 18px;
+  color: #718096;
+  margin: 0 0 24px 0;
+}
+
+.destination-description {
+  font-size: 16px;
+  color: #718096;
+  line-height: 1.6;
+  margin-bottom: 32px;
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #1A1A1A;
+  margin: 0 0 16px 0;
+}
+
+.why-visit-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 32px 0;
+}
+
+.why-visit-list li {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  color: #718096;
+  line-height: 1.5;
+}
+
+.check-icon {
+  color: #FF6B35;
+  font-weight: bold;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.practical-info {
+  background: #F7FAFC;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 32px;
+}
+
+.info-item {
+  margin-bottom: 8px;
+  color: #718096;
+}
+
+.info-item strong {
+  color: #1A1A1A;
+}
+
+.plan-trip-btn {
+  background: #FF6B35;
+  color: white;
+  border: none;
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.plan-trip-btn:hover {
+  background: #E55A2B;
+}

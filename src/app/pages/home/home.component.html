@@ -1,70 +1,78 @@
-<div class="hero-section">
-  <div class="container">
-    <h1 class="hero-title">Planifiez vos escapades</h1>
-    <p class="hero-subtitle">en toute simplicité</p>
-    <a routerLink="/create" class="btn hero-btn">Créer mon séjour</a>
-  </div>
-</div>
+<!-- Hero Section -->
+<section class="hero-section">
+  <h1 class="hero-title">Planifiez votre aventure parfaite avec <span class="brand-highlight">Sifa Plan</span></h1>
+  <p class="hero-subtitle">Créez, partagez et découvrez des itinéraires de voyage inspirants</p>
+</section>
 
-<div class="travel-container">
-  <div class="page-header">
-    <h2 class="page-title">Mes voyages</h2>
-    <p class="page-subtitle">Retrouvez tous vos projets de voyage</p>
+<!-- Destinations Carousel -->
+<section class="destinations-section">
+  <div class="destinations-carousel">
+    <div class="destination-card" (click)="openDestinationModal('Paris')">
+      <img src="assets/imgs/paris.avif" alt="Paris" class="destination-image">
+      <div class="destination-label">Paris</div>
+    </div>
+    <div class="destination-card" (click)="openDestinationModal('Tokyo')">
+      <img src="assets/imgs/tokyo.jpg" alt="Tokyo" class="destination-image">
+      <div class="destination-label">Tokyo</div>
+    </div>
+    <div class="destination-card" (click)="openDestinationModal('London')">
+      <img src="assets/imgs/london.jpg" alt="London" class="destination-image">
+      <div class="destination-label">London</div>
+    </div>
+    <div class="destination-card" (click)="openDestinationModal('New York')">
+      <img src="assets/imgs/New_york.jpg" alt="New York" class="destination-image">
+      <div class="destination-label">New York</div>
+    </div>
+    <div class="destination-card" (click)="openDestinationModal('Barcelona')">
+      <img src="assets/imgs/barcelone.jpg" alt="Barcelona" class="destination-image">
+      <div class="destination-label">Barcelona</div>
+    </div>
+    <div class="destination-card" (click)="openDestinationModal('Abidjan')">
+      <img src="assets/imgs/abidjan.avif" alt="Abidjan" class="destination-image">
+      <div class="destination-label">Abidjan</div>
+    </div>
+  </div>
+</section>
+
+<!-- Recently Added Section -->
+<section class="recently-section">
+  <div class="section-header">
+    <h2 class="section-title">Ajoutés récemment</h2>
+    <a href="#" class="see-all">Voir tout</a>
   </div>
   
-  <div class="row">
-    <div class="col-lg-8">
-      <div class="card trip-card" *ngIf="hasExistingTrip()" (click)="editTrip()">
-        <div class="card-body p-4">
-          <div class="d-flex justify-content-between align-items-start">
-            <div>
-              <h4 class="card-title mb-2">{{getCurrentTrip()?.destination}}</h4>
-              <p class="text-muted mb-2">
-                {{getCurrentTrip()?.dates?.from}} - {{getCurrentTrip()?.dates?.to}}
-              </p>
-              <p class="text-muted mb-0">
-                {{getCurrentTrip()?.participants?.length}} participant(s)
-              </p>
-            </div>
-            <span class="badge rounded-pill px-3 py-2" [class]="getStatusClass(getCurrentTrip()?.status || 'planned')">{{getStatusLabel(getCurrentTrip()?.status || 'planned')}}</span>
+  <!-- Recent Trips -->
+  <div class="row" *ngIf="hasExistingTrip()">
+    <div class="col-md-4" *ngFor="let trip of getRecentTrips()">
+      <div class="trip-card" (click)="editTrip()">
+        <img [src]="trip?.image || 'https://images.unsplash.com/photo-1488646953014-85cb44e25828'" alt="{{trip?.destination}}" class="trip-image">        
+        <div class="trip-content">
+          <h3 class="trip-title">{{trip?.destination}}</h3>
+          <p class="trip-dates">{{trip?.dates?.from | date:'dd/MM/yyyy'}} - {{trip?.dates?.to | date:'dd/MM/yyyy'}}</p>
+          <div class="d-flex justify-content-between align-items-center">
+            <p class="trip-participants">{{trip?.participants?.length}} participant(s)</p>
+            <span class="status-badge status-{{trip?.status || 'planned'}}">
+              {{getStatusLabel(trip?.status || 'planned')}}
+            </span>
           </div>
-        </div>
-      </div>
-      
-      <div class="content-section text-center" *ngIf="!hasExistingTrip()">
-        <div class="py-5">
-          <h4 class="text-muted mb-3">Aucun voyage planifié</h4>
-          <p class="text-muted mb-4">Commencez dès maintenant à organiser votre prochaine aventure</p>
-          <a routerLink="/create" class="btn btn-primary btn-lg">Créer mon premier voyage</a>
-        </div>
-      </div>
-    </div>
-    
-    <div class="col-lg-4">
-      <div class="card">
-        <div class="card-body p-4">
-          <div class="d-flex align-items-center mb-3">
-            <div>
-              <h6 class="mb-1">Exemple : Chartres</h6>
-              <small class="text-muted">Week-end découverte</small>
-            </div>
-          </div>
-          <p class="text-muted small mb-3">Découvrez un exemple complet de planification avec transport, hébergement et activités</p>
-          <button class="btn btn-outline-primary w-100" (click)="loadExample()">
-            Découvrir l'exemple
-          </button>
-        </div>
-      </div>
-      
-      <div class="content-section mt-4">
-        <h6 class="mb-3">Fonctionnalités</h6>
-        <div class="small text-muted">
-          <div class="mb-2">Planification détaillée</div>
-          <div class="mb-2">Calcul des coûts</div>
-          <div class="mb-2">Liste de vérification</div>
-          <div class="mb-2">Export PDF</div>
         </div>
       </div>
     </div>
   </div>
-</div>
+  
+  <!-- Empty State -->
+  <div class="empty-state" *ngIf="!hasExistingTrip()">
+    <div class="empty-icon"><i class="material-icons">flight</i></div>
+    <h3 class="empty-title">Aucun voyage planifié</h3>
+    <p class="empty-subtitle">Commencez à planifier votre prochaine aventure</p>
+    <a routerLink="/create" class="create-btn">Créer votre premier voyage</a>
+  </div>
+</section>
+
+<!-- Modal -->
+<app-reco-trip-detail-modal 
+  *ngIf="selectedDestination"
+  [destination]="selectedDestination"
+  [isVisible]="isModalVisible"
+  (close)="closeModal()">
+</app-reco-trip-detail-modal>

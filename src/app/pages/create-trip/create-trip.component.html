@@ -1,53 +1,80 @@
-<div class="travel-container">
-  <div class="page-header">
-    <h2 class="page-title">Créer un nouveau voyage</h2>
-    <p class="page-subtitle">Commencez par les informations essentielles</p>
-  </div>
-  
-  <div class="row justify-content-center">
-    <div class="col-lg-8">
-      <div class="content-section">
-        <form [formGroup]="tripForm" (ngSubmit)="onSubmit()">
-          <div class="row">
-            <div class="col-md-6 mb-4">
-              <label class="form-label">Date de début</label>
-              <input type="date" class="form-control" formControlName="dateFrom">
-            </div>
-            <div class="col-md-6 mb-4">
-              <label class="form-label">Date de fin</label>
-              <input type="date" class="form-control" formControlName="dateTo">
-            </div>
+<div class="create-page">
+  <div class="create-container">
+    <div class="page-header">
+      <h1 class="page-title">Créer un <span class="color-highlight">nouveau voyage</span></h1>
+      <p class="page-subtitle">Commencez par les informations essentielles</p>
+    </div>
+    
+    <div class="form-card">
+      <form [formGroup]="tripForm" (ngSubmit)="onSubmit()">
+        
+        <!-- Dates -->
+        <div class="dates-grid">
+          <div class="form-group">
+            <label class="form-label">Date de début</label>
+            <input 
+              type="date" 
+              class="form-input" 
+              formControlName="dateFrom"
+            >
           </div>
-          
-          <div class="mb-4">
-            <label class="form-label">Destination</label>
-            <input type="text" class="form-control" formControlName="destination" placeholder="Où souhaitez-vous aller ?">
+          <div class="form-group">
+            <label class="form-label">Date de fin</label>
+            <input 
+              type="date" 
+              class="form-input" 
+              formControlName="dateTo"
+            >
           </div>
-          
-          <div class="mb-4">
-            <label class="form-label">Participants</label>
-            <input type="text" class="form-control" formControlName="participants" placeholder="Qui vous accompagne ?">
-            <div class="form-text">Séparez les noms par des virgules</div>
-          </div>
-          
-          <div class="mb-5">
-            <label class="form-label">Type de voyage</label>
-            <select class="form-select" formControlName="objective">
-              <option value="loisir">Détente & Loisirs</option>
-              <option value="travail">Professionnel</option>
-              <option value="famille">En famille</option>
-              <option value="autre">Autre</option>
-            </select>
-          </div>
-          
-          <div class="d-flex gap-3 justify-content-center">
-            <button type="submit" class="btn btn-primary  px-5" [disabled]="!tripForm.valid">
-              Créer mon voyage
-            </button>
-            <a routerLink="/" class="btn btn-outline-secondary  px-4">Annuler</a>
-          </div>
-        </form>
-      </div>
+        </div>
+        
+        <!-- Destination -->
+        <div class="form-group">
+          <label class="form-label">Destination</label>
+          <input 
+            type="text" 
+            class="form-input" 
+            formControlName="destination" 
+            placeholder="Où souhaitez-vous aller ?"
+          >
+        </div>
+        
+        <!-- Participants -->
+        <div class="form-group">
+          <label class="form-label">Participants</label>
+          <input 
+            type="text" 
+            class="form-input" 
+            formControlName="participants" 
+            placeholder="Qui vous accompagne ?"
+          >
+          <div class="form-help">Séparez les noms par des virgules</div>
+        </div>
+        
+        <!-- Type de voyage -->
+        <div class="form-group">
+          <label class="form-label">Type de voyage</label>
+          <select class="form-select" formControlName="objective">
+            <option value="loisir">Détente & Loisirs</option>
+            <option value="aventure">Aventure</option>
+            <option value="culturel">Culturel</option>
+            <option value="travail">Business</option>
+          </select>
+        </div>
+        
+        <!-- Actions -->
+        <div class="form-actions">
+          <a routerLink="/" class="btn-cancel">Annuler</a>
+          <button 
+            type="submit" 
+            class="btn-primary" 
+            [disabled]="!tripForm.valid"
+          >
+            Créer mon voyage
+          </button>
+        </div>
+        
+      </form>
     </div>
   </div>
 </div>
