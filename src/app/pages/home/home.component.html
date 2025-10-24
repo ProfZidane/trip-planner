@@ -7,27 +7,27 @@
 <!-- Destinations Carousel -->
 <section class="destinations-section">
   <div class="destinations-carousel">
-    <div class="destination-card">
+    <div class="destination-card" (click)="openDestinationModal('Paris')">
       <img src="assets/imgs/paris.avif" alt="Paris" class="destination-image">
       <div class="destination-label">Paris</div>
     </div>
-    <div class="destination-card">
+    <div class="destination-card" (click)="openDestinationModal('Tokyo')">
       <img src="assets/imgs/tokyo.jpg" alt="Tokyo" class="destination-image">
       <div class="destination-label">Tokyo</div>
     </div>
-    <div class="destination-card">
+    <div class="destination-card" (click)="openDestinationModal('London')">
       <img src="assets/imgs/london.jpg" alt="London" class="destination-image">
       <div class="destination-label">London</div>
     </div>
-    <div class="destination-card">
+    <div class="destination-card" (click)="openDestinationModal('New York')">
       <img src="assets/imgs/New_york.jpg" alt="New York" class="destination-image">
       <div class="destination-label">New York</div>
     </div>
-    <div class="destination-card">
+    <div class="destination-card" (click)="openDestinationModal('Barcelona')">
       <img src="assets/imgs/barcelone.jpg" alt="Barcelona" class="destination-image">
       <div class="destination-label">Barcelona</div>
     </div>
-    <div class="destination-card">
+    <div class="destination-card" (click)="openDestinationModal('Abidjan')">
       <img src="assets/imgs/abidjan.avif" alt="Abidjan" class="destination-image">
       <div class="destination-label">Abidjan</div>
     </div>
@@ -45,8 +45,7 @@
   <div class="row" *ngIf="hasExistingTrip()">
     <div class="col-md-4" *ngFor="let trip of getRecentTrips()">
       <div class="trip-card" (click)="editTrip()">
-        <img [src]="trip?.image || 'https://images.unsplash.com/photo-1488646953014-85cb44e25828'" alt="{{trip?.destination}}" class="trip-image">
-        <div class="favorite-icon">♡</div>
+        <img [src]="trip?.image || 'https://images.unsplash.com/photo-1488646953014-85cb44e25828'" alt="{{trip?.destination}}" class="trip-image">        
         <div class="trip-content">
           <h3 class="trip-title">{{trip?.destination}}</h3>
           <p class="trip-dates">{{trip?.dates?.from | date:'dd/MM/yyyy'}} - {{trip?.dates?.to | date:'dd/MM/yyyy'}}</p>
@@ -70,3 +69,10 @@
   </div>
 </section>
 
+<!-- Modal -->
+<app-reco-trip-detail-modal 
+  *ngIf="selectedDestination"
+  [destination]="selectedDestination"
+  [isVisible]="isModalVisible"
+  (close)="closeModal()">
+</app-reco-trip-detail-modal>

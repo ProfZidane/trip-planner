@@ -1,0 +1,39 @@
+<div class="modal-overlay" *ngIf="isVisible" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="close-btn" (click)="closeModal()">×</button>
+    
+    <div class="hero-image">
+      <img [src]="destination.image" [alt]="destination.name">
+    </div>
+    
+    <div class="modal-body">
+      <h1 class="destination-title">{{destination.name}}</h1>
+      <p class="destination-country">{{destination.country}}</p>
+      
+      <p class="destination-description">{{destination.description}}</p>
+      
+      <div class="why-visit-section">
+        <h3 class="section-title">Pourquoi visiter ?</h3>
+        <ul class="why-visit-list">
+          <li *ngFor="let reason of destination.whyVisit">
+            <span class="check-icon">✓</span>
+            {{reason}}
+          </li>
+        </ul>
+      </div>
+      
+      <div class="practical-info">
+        <div class="info-item">
+          <strong>Meilleure période :</strong> {{destination.bestPeriod}}
+        </div>
+        <div class="info-item">
+          <strong>Durée conseillée :</strong> {{destination.recommendedDuration}}
+        </div>
+      </div>
+      
+      <button class="plan-trip-btn" (click)="planTrip()">
+        Planifier mon voyage
+      </button>
+    </div>
+  </div>
+</div>

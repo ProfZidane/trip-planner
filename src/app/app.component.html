@@ -1,34 +1,8 @@
-<!-- Header -->
-<header class="header">
-  <a href="/" class="logo">SIFA PLAN</a>
-  
-  <div class="search-bar-header">
-    <i class="material-icons search-icon">search</i>
-    <input type="text" class="search-input-header" placeholder="Recherchez votre destination">
-  </div>
-  
-  <div class="header-buttons">
-    <a href="#" class="sign-in">Se connecter</a>
-    <a routerLink="/create" class="create-tour-btn">Créer un voyage</a>
-  </div>
-</header>
+<app-navbar></app-navbar>
 
 <!-- Main Content -->
 <main class="main-content">
   <router-outlet></router-outlet>
 </main>
 
-<!-- Footer -->
-<footer class="footer">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-6">
-        <h5>Rover Plan</h5>
-        <p>Planifiez vos voyages en toute simplicité</p>
-      </div>
-      <div class="col-md-6 text-end">
-        <p>&copy; 2024 Rover Plan. Tous droits réservés.</p>
-      </div>
-    </div>
-  </div>
-</footer>
+<app-footer></app-footer>
